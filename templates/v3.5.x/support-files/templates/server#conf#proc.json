@@ -1,0 +1,1224 @@
+{
+    "proc_topo": {
+        "bk_biz_name": "蓝鲸",
+        "procs": [
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "java",
+                    "bk_process_name": "job-java",
+                    "bk_start_param_regex": "job.conf",
+                    "port": "__JOB_API_PORT__,__JOB_NGXPROXY_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "job"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "java",
+                    "bk_process_name": "kafka-java",
+                    "bk_start_param_regex": "kafkaServer-gc.log",
+                    "port": "__KAFKA_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "kafka"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "paas_agent",
+                    "bk_process_name": "paas_agent",
+                    "port": "__PAAS_AGENT_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "appo",
+                    "appt"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "mysqld",
+                    "bk_process_name": "mysqld",
+                    "port": "__MYSQL_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "mysql"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "redis-server",
+                    "bk_process_name": "redis-server",
+                    "bk_start_param_regex": ":__REDIS_PORT__",
+                    "port": "__REDIS_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "redis",
+                    "redis_cluster"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "redis-server",
+                    "bk_process_name": "redis-sentinel",
+                    "bk_start_param_regex": "sentinel",
+                    "port": "__REDIS_CLUSTER_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "redis_cluster"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "java",
+                    "bk_process_name": "zk-java",
+                    "bk_start_param_regex": "org.apache.zookeeper.server.quorum.QuorumPeerMain",
+                    "port": "__ZK_PORT__,3888",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "zookeeper"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "java",
+                    "bk_process_name": "es-java",
+                    "bk_start_param_regex": "org.elasticsearch.bootstrap.Elasticsearch",
+                    "port": "__ES_TRANSPORT_PORT__,__ES_REST_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "elasticsearch"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "beam.smp",
+                    "bk_process_name": "rabbitmq-beam.smp",
+                    "bk_start_param_regex": "rabbitmq",
+                    "port": "__RABBITMQ_PORT__,__RABBITMQ_DIST_PORT__,__RABBITMQ_ADMIN_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "rabbitmq"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "nginx",
+                    "bk_process_name": "nginx-paas-http",
+                    "port": "__DEFAULT_HTTP_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "nginx"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "beanstalkd",
+                    "bk_process_name": "beanstalkd",
+                    "port": "__BEANSTALK_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "beanstalk"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "influxd",
+                    "bk_process_name": "influxd",
+                    "port": "__INFLUXDB_PORT__,8088",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "influxdb"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "etcd",
+                    "bk_process_name": "etcd",
+                    "port": "__ETCD_CLIENT_PORT__,__ETCD_PEER_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "etcd"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "dataapi-py",
+                    "bk_start_param_regex": "dataapi/bin/gunicorn",
+                    "port": "__DATAAPI_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "dataapi"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "java",
+                    "bk_process_name": "databus-es",
+                    "bk_start_param_regex": "es.cluster.properties",
+                    "port": "__DATABUS_ES_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "databus"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta-common:webserver",
+                    "bk_start_param_regex": "fta.www.webserver",
+                    "port": "__FTA_WEBSERVER_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "gse_data",
+                    "bk_process_name": "gse_data",
+                    "port": "__GSE_TRANS_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "gse_data"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "gse_dba",
+                    "bk_process_name": "gse_dba",
+                    "port": "58859",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "gse_dba"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "gse_api",
+                    "bk_process_name": "gse_api",
+                    "port": "__GSEAPISERVER_PORT__,__GSEHTTP_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "gse_api"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "gse_task",
+                    "bk_process_name": "gse_task",
+                    "port": "__GSE_TASK_API_PORT__,__GSE_TASK_IO_PORT__,48671,48329",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "gse_task"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "gse_proc",
+                    "bk_process_name": "gse_proc",
+                    "port": "__GSEPROC_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "gse_proc"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "gse_btsvr",
+                    "bk_process_name": "gse_btsvr",
+                    "port": "10020,58930,58925",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "gse_btsvr"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "gse_ops",
+                    "bk_process_name": "gse_ops",
+                    "port": "__GSE_OPS_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "gse_ops"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "gse_alarm",
+                    "bk_process_name": "gse_alarm",
+                    "port": "",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "gse_alarm"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "license_server",
+                    "bk_process_name": "license_server",
+                    "port": "__LICENSE_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "license"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "consul",
+                    "bk_process_name": "consul-agent",
+                    "port": "8301,__CONSUL_HTTP_PORT__,53",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "consul"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_adminserver",
+                    "bk_process_name": "cmdb_adminserver",
+                    "port": "__CMDB_ADMIN_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "adminserver"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_apiserver",
+                    "bk_process_name": "cmdb_apiserver",
+                    "port": "__CMDB_API_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "apiserver"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_auditcontroller",
+                    "bk_process_name": "cmdb_auditcontroller",
+                    "port": "__CMDB_AUDIT_CTRL_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "auditcontroller"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_datacollection",
+                    "bk_process_name": "cmdb_datacollection",
+                    "port": "__CMDB_DATACOLLECTION_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "datacollection"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_eventserver",
+                    "bk_process_name": "cmdb_eventserver",
+                    "port": "__CMDB_EVENT_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "eventserver"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_hostcontroller",
+                    "bk_process_name": "cmdb_hostcontroller",
+                    "port": "__CMDB_HOST_CTRL_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "hostcontroller"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_hostserver",
+                    "bk_process_name": "cmdb_hostserver",
+                    "port": "__CMDB_HOST_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "hostserver"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_objectcontroller",
+                    "bk_process_name": "cmdb_objectcontroller",
+                    "port": "__CMDB_OBJECT_CTRL_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "objectcontroller"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_proccontroller",
+                    "bk_process_name": "cmdb_proccontroller",
+                    "port": "__CMDB_PROC_CTRL_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "proccontroller"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_procserver",
+                    "bk_process_name": "cmdb_procserver",
+                    "port": "__CMDB_PROC_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "procserver"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_toposerver",
+                    "bk_process_name": "cmdb_toposerver",
+                    "port": "__CMDB_TOPO_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "toposerver"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": "",
+                    "bk_func_name": "cmdb_webserver",
+                    "bk_process_name": "cmdb_webserver",
+                    "port": "__CMDB_WEB_PORT__",
+                    "protocol": "1",
+                    "work_path": "__INSTALL_PATH__"
+                },
+                "modules": [
+                    "webserver"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "docker-containerd",
+                    "bk_process_name": "docker-containerd",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "appo"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "dockerd",
+                    "bk_process_name": "dockerd",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "appo"
+                ] 
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "nginx",
+                    "bk_process_name": "nginx-paasagent",
+                    "port": "__APP_NGXPROXY_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "appo"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "nginx",
+                    "bk_process_name": "nginx-cmdb_direct",
+                    "port": "__CMDB_NGXPROXY_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "cmdb-nginx"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "gse_procmgr",
+                    "bk_process_name": "gse_procmgr",
+                    "port": "__GSE_PMS_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "gse_procmgr"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "gse_dataop",
+                    "bk_process_name": "gse_dataop",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "gse_dataop"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "gse_syncdata",
+                    "bk_process_name": "gse_syncdata",
+                    "port": "__GSE_SYNCDATA_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "gse_syncdata"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "gse_opts",
+                    "bk_process_name": "gse_opts",
+                    "port": "__GSE_OPTS_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "gse_opts"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "dataapi-celery",
+                    "bk_start_param_regex": "dataapi/bin/celery",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "dataapi"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "java",
+                    "bk_process_name": "databus-etl",
+                    "bk_start_param_regex": "etl.cluster.properties",
+                    "port": "__DATABUS_ETL_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "databus"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "java",
+                    "bk_process_name": "databus-jdbc",
+                    "bk_start_param_regex": "jdbc.cluster.properties",
+                    "port": "__DATABUS_MYSQL_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "databus"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "java",
+                    "bk_process_name": "databus-redis",
+                    "bk_start_param_regex": "redis.cluster.properties",
+                    "port": "__DATABUS_REDIS_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "databus"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "java",
+                    "bk_process_name": "databus-tsdb",
+                    "bk_start_param_regex": "tsdb.cluster.properties",
+                    "port": "__DATABUS_TSDB_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "databus"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-common:logging",
+                    "bk_start_param_regex": "kernel.logging.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-collect",
+                    "bk_start_param_regex": "kernel.collect.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-converge",
+                    "bk_start_param_regex": "kernel.converge.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-kernel:cron",
+                    "bk_start_param_regex": "kernel.cron.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-kernel:match_alarm",
+                    "bk_start_param_regex": "kernel.match_alarm.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-kernel:qos",
+                    "bk_start_param_regex": "kernel.qos.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-run_data_access",
+                    "bk_start_param_regex": "run_data_access",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-run_detect_new",
+                    "bk_start_param_regex": "run_detect_new",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-run_poll_alarm",
+                    "bk_start_param_regex": "run_poll_alarm",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-scheduler",
+                    "bk_start_param_regex": "kernel.scheduler.celery_app",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "monitor-healthz",
+                    "bk_start_param_regex": "healthz_service",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "monitor"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "datamanager",
+                    "bk_start_param_regex": "data_monitor.py master",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "datamanager"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta-common:apiserver",
+                    "bk_start_param_regex": "fta.www.apiserver",
+                    "port": "__FTA_APISERVER_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta-common:jobserver",
+                    "bk_start_param_regex": "fta.job.server",
+                    "port": "__FTA_JOBSERVER_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta-common:logging",
+                    "bk_start_param_regex": "fta.logging.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta-common:polling",
+                    "bk_start_param_regex": "fta.polling.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta-common:qos",
+                    "bk_start_param_regex": "fta.qos.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta-common:scheduler",
+                    "bk_start_param_regex": "fta.scheduler.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta:collect",
+                    "bk_start_param_regex": "fta.collect.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta:converge",
+                    "bk_start_param_regex": "fta.converge.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta:job",
+                    "bk_start_param_regex": "fta.job.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta:match_alarm",
+                    "bk_start_param_regex": "fta.match_alarm.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta:poll_alarm",
+                    "bk_start_param_regex": "fta.poll_alarm.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "python",
+                    "bk_process_name": "fta:solution",
+                    "bk_start_param_regex": "fta.solution.main",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "fta"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "uwsgi",
+                    "bk_process_name": "paas-paas",
+                    "bk_start_param_regex": "paas-paas",
+                    "port": "8001",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "paas"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "uwsgi",
+                    "bk_process_name": "paas-console",
+                    "bk_start_param_regex": "paas-console",
+                    "port": "8004",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "console"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "uwsgi",
+                    "bk_process_name": "paas-appengine",
+                    "bk_start_param_regex": "paas-appengine",
+                    "port": "8000",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "appengine"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "uwsgi",
+                    "bk_process_name": "paas-esb",
+                    "bk_start_param_regex": "paas-esb",
+                    "port": "8002",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "esb"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "uwsgi",
+                    "bk_process_name": "paas-login",
+                    "bk_start_param_regex": "paas-login",
+                    "port": "8003",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "login"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "ceph-mon",
+                    "bk_process_name": "ceph-mon",
+                    "port": "__CEPH_MON_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "ceph-mon"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "radosgw",
+                    "bk_process_name": "ceph-radosgw",
+                    "port": "7480",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "ceph-radosgw"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "tsdb-proxy",
+                    "bk_process_name": "tsdb-proxy",
+                    "port": "__INFLUXDB_PROXY_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "influxdb"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "mongod",
+                    "bk_process_name": "mongod",
+                    "port": "__MONGODB_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "mongodb"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "bash",
+                    "bk_process_name": "mysqld_safe",
+                    "bk_start_param_regex": "mysqld_safe",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "mysql"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "rpc.statd",
+                    "bk_process_name": "rpc.statd",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "nfs"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "rpc.idmapd",
+                    "bk_process_name": "rpc.idmapd",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "nfs"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "rpc.mountd",
+                    "bk_process_name": "rpc.mountd",
+                    "port": "",
+                    "protocol": null,
+                    "work_path": ""
+                },
+                "modules": [
+                    "nfs"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "rpcbind",
+                    "bk_process_name": "rpcbind",
+                    "port": "111",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "nfs"
+                ]
+            },
+            {
+                "data": {
+                    "bind_ip": null,
+                    "bk_func_name": "nginx",
+                    "bk_process_name": "nginx-paas-https",
+                    "port": "__DEFAULT_HTTPS_PORT__",
+                    "protocol": "1",
+                    "work_path": ""
+                },
+                "modules": [
+                    "nginx"
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,9 @@
+# vim:sts=2 ts=2 sw=2
+
+- name: server
+  module: cmdb
+  project_dir: cmdb/server
+  alias: cmdb
+  language: golang
+  version: __VERSION__
+  version_type: __VERSION_TYPE__

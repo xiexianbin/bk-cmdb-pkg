@@ -1,0 +1,77 @@
+#!/bin/bash
+
+WORK_DIR=$(cd ${BASH_SOURCE%/*} 2>/dev/null; pwd)
+source /root/.bkrc
+source $CTRL_DIR/utils.fc
+
+import_biz_config () {
+    local tag="$1"
+    local name="$2"
+    local file="$3"
+    if ! check_tag $tag; then
+        if [ -f $file ]; then
+            log "$file exists, ready to import"
+            "$cmdb_path"/bin/cmdb_adminserver bkbiz --import \
+                    --config "$cmdb_path"/conf/migrate.conf \
+                    --biz_name "$name" \
+                    --file "$file"
+            assert "load $file done. $(make_tag $tag)" "load $file failed."
+        else
+            log "$file does not exist, skip import"
+            return 0
+        fi
+    else
+        log "tag $tag exists, skip import"
+        return 0
+    fi
+}
+
+cmdb_path="$INSTALL_PATH/cmdb/server"
+topo_file="$cmdb_path/conf/topo.json"
+proc_file="$cmdb_path/conf/proc.json"
+topo_tag="init_cmdb_bk_topo"
+proc_tag="init_cmdb_bk_proc"
+
+cd $WORK_DIR
+tmpfile=initcmdb.tmp
+
+ports=( "${CMDB_OBJECT_CTRL_PORT}"
+        "${CMDB_HOST_CTRL_PORT}"
+        "${CMDB_PROC_CTRL_PORT}"
+        "${CMDB_AUDIT_CTRL_PORT}"
+        "${CMDB_HOST_PORT}"
+        "${CMDB_TOPO_PORT}"
+        "${CMDB_PROC_PORT}"
+        "${CMDB_ADMIN_PORT}"
+        "${CMDB_EVENT_PORT}"
+        "${CMDB_API_PORT}"
+        "${CMDB_WEB_PORT}")
+
+log "waitting for ports ready ..."
+for _port in ${ports[@]}; do
+    wait_port_alive $_port
+    assert "$_port is ready." "port $_port start failed, please check"
+done
+
+log "init cmdb data from api(migrate v3)"
+sleep 4
+curl -o $tmpfile -X POST \
+    -H 'Content-Type:application/json' \
+    -H 'BK_USER:migrate' \
+    -H 'HTTP_BLUEKING_SUPPLIER_ID:0' \
+    "http://$CMDB_IP0:$CMDB_ADMIN_PORT/migrate/v3/migrate/enterprise/0"
+
+if [ -f $tmpfile ]; then
+    cat $tmpfile
+    if grep -Eq 'migrate success' $tmpfile; then
+       ok "init cmdb succeded."
+    else
+       fail "init cmdb failed. api response: $(< $tmpfile)"
+    fi
+    rm -f $tmpfile
+else
+    fail "request failed. $tmpfile not found"
+fi
+
+import_biz_config "$topo_tag" "蓝鲸" "$topo_file"
+import_biz_config "$proc_tag" "蓝鲸" "$proc_file"

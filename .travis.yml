@@ -50,6 +50,7 @@ script:
   - cp -rp $REPO_PATH/templates/v$BRANCH_VERSION/* $GOPATH/src/$ALIAS_REPO_NAME/src/bin/enterprise/cmdb/
   - cd $GOPATH/src/$ALIAS_REPO_NAME/src/bin/enterprise
   - tree
+  - if [ -f "./cmdb/support-files/projects.yaml.bak" ]; then cp ./cmdb/support-files/projects.yaml.bak ./cmdb/projects.yaml; sed -i 's#__VERSION__#$BRANCH_VERSION#g' ./cmdb/projects.yaml; sed -i 's#__VERSION_TYPE__#ee#g' ./cmdb/projects.yaml; fi
   - echo $VERSION > cmdb/VERSION
   - touch cmdb/release.md
   - echo "more log at https://github.com/Tencent/bk-cmdb" > cmdb/release.md
