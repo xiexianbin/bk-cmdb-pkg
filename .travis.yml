@@ -1,0 +1,79 @@
+sudo: false
+
+language: go
+
+os:
+  - linux
+
+go:
+  - "1.11.4"
+
+branches:
+  only:
+    - master
+    - /^(release-v|v)\d+\.\d+\.\d+$/
+
+env:
+  global:
+    - REPO_NAME=bk-cmdb
+    - ALIAS_REPO_NAME=configcenter
+    - VERSION=`cat VERSION`
+    - BRANCH_VERSION=`echo $VERSION | ( IFS=".$IFS" ; read major minor revision && echo $major.$minor.x )`
+    - BRANCH=release-v$VERSION
+    - GH_REF=github.com/g-robot/cmdb.git
+
+cache:
+  directories:
+    - node_modules
+
+install: true
+
+before_script:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq -y make tree
+  - REPO_PATH=`pwd`
+  - echo $REPO_PATH && tree
+  # - chmod +x ./script/publish-to-github.sh
+
+script:
+  - ls $GOPATH && ls $GOPATH/src
+  - cd $GOPATH/src
+  - git clone https://github.com/Tencent/$REPO_NAME $ALIAS_REPO_NAME
+  - cd ${GOPATH}/src/$ALIAS_REPO_NAME/
+  - git checkout $BRANCH
+  - cd ${GOPATH}/src/$ALIAS_REPO_NAME/src/
+  - make
+  # - make package
+  - make enterprise
+  - tree $GOPATH/src/$ALIAS_REPO_NAME/src/bin/
+  - cp -rp $GOPATH/src/$ALIAS_REPO_NAME/src/bin/build/$VERSION/web $GOPATH/src/$ALIAS_REPO_NAME/src/bin/enterprise/cmdb/
+  - cp -rp $REPO_PATH/templates/v$BRANCH_VERSION/* $GOPATH/src/$ALIAS_REPO_NAME/src/bin/enterprise/cmdb/
+  - cd $GOPATH/src/$ALIAS_REPO_NAME/src/bin/enterprise
+  - tree
+  - echo $VERSION > cmdb/VERSION
+  - touch cmdb/release.md
+  - echo "more log at https://github.com/Tencent/bk-cmdb" > cmdb/release.md
+  - tar -zcvf cmdb_ee-v$VERSION.tgz cmdb
+
+# after_script:
+#   - ./script/publish-to-github.sh
+
+deploy:
+  provider: releases
+  api_key:
+    secure: i2rpBi5K771SFGIu8OBY+IcG1vkRCTqBbfPxB54mfjK01N+dulmP/CHl5jxB8c5+PUAno7/9CbwMetGdlTLeV12pf9ZriPDwKmeAMNsoTxZQJCOCMn5tJYBIXW//Q74Qjxl0clALRY3EGtzoPFY/wfNKBOta2hCX0TWJCLikcQU73OY7a1B2Uv/ee67VPOZWuaMMxfSLjH5kTN1JYQHEcHCEsDRzddt8nMfFSgUNi/oJLDDO8dd1a2RvpVRD/5cnnblhELn2aD23hfGukRfza9m4uNwNJyFZ992jM+GH4hFz+uAJJGrPXe8fIkJf/yZhkGGaG/3cWqXE3PF0DAEiWSnfY9ztQ8NY7jC6IkbmQoWXYMVAzUI77hw22ZGkrYZdX+kaVE4+ZUeDZBPFp4GR1YeWfgEneNYNHXudnyv+I2XD+whbD5HMinqxQ12kuo8eCjXK7hL1oqUQspWIOsHXmE6/SvCPE4MdIRfpYDgWtgEUAlRgMf0JDAyfUeKTn1QfAemGQtTmRVE6pFtWB1i7SPUiulkreuu8aoB4M8uva+3JGA7YFNe9ueiqUSmkxGw/iVbFpZ2Pqc7Giqu37mXrMZsbl1OOrr+pW+RxViY1W4n2XCWM2+iHlwE8PaT8z6Wso9uCTGt7IObBo9hLFFNha+zvZ/AAtpJHDog2z9KesU0=
+  file: "$GOPATH/src/$ALIAS_REPO_NAME/src/bin/enterprise/cmdb_ee-v$VERSION.tgz"
+  skip_cleanup: true
+  on:
+    tags: true
+    # repo: G-robot/cmdb
+
+after_success:
+  - echo "ok"
+
+notifications:
+  email:
+    recipients:
+      - me@xiexianbin.cn
+    on_success: always
+    on_failure: always
