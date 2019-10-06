@@ -8,11 +8,13 @@
 
 ## 使用
 
-update VERSION
+update VERSION，格式为：A.B.C
+
 
 ```
-git tag -a release-v3.2.17 -m "bk cmdb release-v3.2.17"
-git push origin release-v3.2.17
+v=release-v3.2.17
+git tag -a $v -m "bk cmdb $v"
+git push origin $v
 ```
 
 ## 删除`tag`
