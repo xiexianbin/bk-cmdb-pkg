@@ -1,0 +1,71 @@
+#!/bin/bash
+# vim:ft=sh sts=4 ts=4 expandtab
+set -x
+
+red_echo ()      { [ "$HASTTY" != "1" ] && echo "$@" || echo -e "\033[031;1m$@\033[0m"; }
+blue_echo ()     { [ "$HASTTY" != "1" ] && echo "$@" || echo -e "\033[034;1m$@\033[0m"; }
+green_echo ()    { [ "$HASTTY" != "1" ] && echo "$@" || echo -e "\033[032;1m$@\033[0m"; }
+
+log () {
+     # 打印消息
+     local retval=$?
+     local timestamp=$(date +%Y%m%d-%H%M%S)
+     local level=INFO
+     local func_seq=$(echo ${FUNCNAME[@]} | sed 's/ /-/g')
+
+     local opt=
+
+     if [ "${1:0:1}" == "-" ]; then
+          opt=$1
+          shift 1
+     else
+          opt=""
+     fi
+
+     echo -e $opt "$timestamp|$BASH_LINENO\t$@"
+
+     return $retval
+}
+
+usage () {
+    echo "useage: xctl ACTION VERSION"
+    echo ""
+    echo "ACTION list: create, delete"
+    echo " create     create new tags"
+    echo " delete     delete new tags"
+    echo ""
+}
+
+_create () {
+    local version=""release-v$1""
+    local ret=0
+    echo $version
+
+    echo $1 > VERSION
+    git add VERSION
+    git commit -m "feature: update version to $version"
+    git push origin master
+
+    git tag -a $version -m "bk cmdb $version"
+    git push origin $version
+
+    return $ret
+}
+
+_delete () {
+    local version=""release-v$1""
+
+    git tag -d $version
+    git push origin --delete $version
+}
+
+# main
+action="$1"; version="$2"; shift
+
+case $action in
+    create) _create $version ;;
+    delete) _delete $version ;;
+    -h) usage ; exit 255;;
+esac
+
+exit $?
