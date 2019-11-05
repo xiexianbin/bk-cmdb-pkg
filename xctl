@@ -43,10 +43,10 @@ _create () {
 
     echo $1 > VERSION
     git add VERSION
-    git commit -m "feature: update version to $version"
+    git commit -m "feature: update version to $version - by robot"
     git push origin master
 
-    git tag -a $version -m "bk cmdb $version"
+    git tag -a $version -m "bk cmdb $version - by robot"
     git push origin $version
 
     return $ret
