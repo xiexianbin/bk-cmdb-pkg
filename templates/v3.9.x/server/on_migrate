@@ -1,0 +1,70 @@
+#!/bin/bash
+
+WORK_DIR=$(cd ${BASH_SOURCE%/*} 2>/dev/null; pwd)
+source /root/.bkrc
+source $CTRL_DIR/utils.fc
+
+cd $WORK_DIR
+tmpfile=initcmdb.tmp
+
+ports=( "${CMDB_ADMIN_PORT}"
+        "${CMDB_TM_PORT}")
+
+log "waitting for ports ready ..."
+for _port in ${ports[@]}; do
+    wait_port_alive $_port
+    assert "$_port is ready." "port $_port start failed, please check"
+done
+
+log "init cmdb data from api(migrate v3)"
+sleep 4
+curl -o $tmpfile -X POST \
+    -H 'Content-Type:application/json' \
+    -H 'BK_USER:migrate' \
+    -H 'HTTP_BLUEKING_SUPPLIER_ID:0' \
+    "http://$CMDB_IP0:$CMDB_ADMIN_PORT/migrate/v3/migrate/enterprise/0"
+
+if [ -f $tmpfile ]; then
+    cat $tmpfile
+    if grep -Eq 'migrate success' $tmpfile; then
+       ok "init cmdb succeded."
+    else
+       fail "init cmdb failed. api response: $(< $tmpfile)"
+    fi
+    rm -f $tmpfile
+else
+    fail "request failed. $tmpfile not found"
+fi
+
+log "init iam data from api(migrate v3)"
+sleep 4
+curl -o $tmpfile -X POST \
+    -H 'Content-Type:application/json' \
+    -H 'BK_USER:migrate' \
+    -H 'HTTP_BLUEKING_SUPPLIER_ID:0' \
+    "http://$CMDB_IP0:$CMDB_ADMIN_PORT/migrate/v3/authcenter/init"
+
+if [ -f $tmpfile ]; then
+    cat $tmpfile
+    if grep -Eq 'init auth center success' $tmpfile; then
+       ok "init iam succeded."
+    else
+       fail "init iam failed. api response: $(< $tmpfile)"
+    fi
+    rm -f $tmpfile
+else
+    fail "request failed. $tmpfile not found"
+fi
+
+topo_file=$INSTALL_PATH/cmdb/server/conf/topo.json
+proc_file=$INSTALL_PATH/cmdb/server/conf/proc.json
+
+if [ -f $topo_file ]; then
+    ./cmdb_adminserver bkbiz --import --config $INSTALL_PATH/cmdb/server/conf/migrate.conf --file $topo_file
+    assert "load topo.json done." "load topo.json failed."
+fi
+
+if [ -f $proc_file ]; then
+    ./cmdb_adminserver bkbiz --import --config $INSTALL_PATH/cmdb/server/conf/migrate.conf --file $proc_file
+    wassert "load proc done." "load process settings failed."
+fi

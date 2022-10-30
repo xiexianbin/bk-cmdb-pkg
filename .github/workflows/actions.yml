@@ -1,0 +1,136 @@
+name: actions
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'run action reason'
+        required: false
+        type: string
+        default: 'manually test'
+  push:
+    branches:
+      - main
+      - fix/**
+      - bugfix/**
+      - feature/**
+      - ^(release-v|v)\d+\.\d+\.\d+$
+    tags:
+      - "release-v*.*.*"
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.13  # 1.8 / 1.11, 1.18 不行
+
+      - name: Check Go Version
+        run: |
+          go version
+          go env
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Check Node Version
+        run: |
+          node -v
+          npm -v
+
+      - name: Build CMDB
+        run: |
+          set -x
+          sudo apt-get update -qq
+          sudo apt-get install -qq -y make tree
+          REPO_PATH=`pwd`
+          echo ${REPO_PATH} && tree
+
+          REPO_NAME="bk-cmdb"
+          ALIAS_REPO_NAME="configcenter"
+          VERSION=`cat VERSION`
+          BRANCH_VERSION=`echo ${VERSION} | ( IFS=".$IFS" ; read major minor revision && echo $major.$minor.x )`
+          BRANCH=release-v${VERSION}
+
+          mkdir -p gopath/src
+          export GOPATH=${REPO_PATH}/gopath
+          export GO111MODULE=auto
+          ls $GOPATH && ls $GOPATH/src
+          cd $GOPATH/src
+          CODE_PATH=${GOPATH}/src/${ALIAS_REPO_NAME}
+          BIN_PATH=${CODE_PATH}/src/bin
+
+          git clone https://github.com/Tencent/bk-cmdb $ALIAS_REPO_NAME
+          cd ${CODE_PATH}
+          git checkout $BRANCH
+          cd ${CODE_PATH}/src/
+          make VERSION=v${VERSION}
+          make enterprise
+
+          # make package
+          tree -L 3 ${BIN_PATH}
+          sleep 3
+          cd ${BIN_PATH}/enterprise
+          sudo chmod a+x -R ./cmdb/server/bin
+          sudo ls -lhart ./cmdb/server/bin
+          if [[ -f "./cmdb/support-files/projects.yaml.bak" ]]; then
+            cp ./cmdb/support-files/projects.yaml.bak ./cmdb/projects.yaml
+            sed -i -e "s#__VERSION__#${VERSION}#g" ./cmdb/projects.yaml
+            sed -i -e "s#__VERSION_TYPE__#ee#g" ./cmdb/projects.yaml
+            cat ./cmdb/projects.yaml
+          fi
+          cp -rp ${REPO_PATH}/VERSION ./cmdb/VERSION
+          if [[ -f ${CODE_PATH}/docs/support-file/changelog/release.md ]]; then
+            cp -rp ${CODE_PATH}/docs/support-file/changelog/release.md ./cmdb
+          fi
+          cp -rp ${REPO_PATH}/templates/v${BRANCH_VERSION}/server ./cmdb/
+          cp -rp ${REPO_PATH}/templates/v${BRANCH_VERSION}/support-files ./cmdb/
+
+          tree -L 3 ${BIN_PATH}/enterprise
+          sleep 3
+
+          # tar ee
+          sudo chown root:root -R ./cmdb
+          tar -zcvf ${REPO_PATH}/cmdb_ee-v${VERSION}.tgz cmdb
+          cd ${REPO_PATH}
+          md5sum cmdb_ee-v${VERSION}.tgz > cmdb_ee-v${VERSION}.tgz.md5sum
+
+          if [[ -d "${REPO_PATH}/templates/v${BRANCH_VERSION}/ce" ]]; then
+            # tar ce
+            cd -
+            sudo cp -rp ${REPO_PATH}/templates/v${BRANCH_VERSION}/ce/support-files/templates/* ./cmdb/support-files/templates/
+            sudo chown root:root -R ./cmdb
+            tar -zcf ${REPO_PATH}/cmdb_ce-v${VERSION}.tgz cmdb
+            cd ${REPO_PATH}
+            md5sum cmdb_ce-v${VERSION}.tgz > cmdb_ce-v${VERSION}.tgz.md5sum
+          fi
+
+      - name: Release To Github
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            cmdb_*e-v*.tgz
+            cmdb_*e-v*.tgz.md5sum
+
+      - name: Sending Dingtalk Message
+        uses: x-actions/dingtalk@v2
+        env:
+          DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+          DINGTALK_SECRET: ${{ secrets.DINGTALK_SECRET }}
+          MSGTYPE: markdown
+          TITLE: "Build CMDB Done"
+          TEXT: |
+            # Build CMDB Done
+            > Build Done. ^_^

@@ -1,6 +1,6 @@
 # cmdb
 
-[![Build Status](https://travis-ci.org/xiexianbin/cmdb-x.svg?branch=master)](https://travis-ci.org/xiexianbin/cmdb-x)
+[![actions](https://github.com/xiexianbin/bk-cmdb-pgk/actions/workflows/actions.yml/badge.svg)](https://github.com/xiexianbin/bk-cmdb-pgk/actions/workflows/actions.yml)
 
 ## 目的
 

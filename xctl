@@ -7,24 +7,24 @@ blue_echo ()     { [ "$HASTTY" != "1" ] && echo "$@" || echo -e "\033[034;1m$@\0
 green_echo ()    { [ "$HASTTY" != "1" ] && echo "$@" || echo -e "\033[032;1m$@\033[0m"; }
 
 log () {
-     # 打印消息
-     local retval=$?
-     local timestamp=$(date +%Y%m%d-%H%M%S)
-     local level=INFO
-     local func_seq=$(echo ${FUNCNAME[@]} | sed 's/ /-/g')
+    # 打印消息
+    local retval=$?
+    local timestamp=$(date +%Y%m%d-%H%M%S)
+    local level=INFO
+    local func_seq=$(echo ${FUNCNAME[@]} | sed 's/ /-/g')
 
-     local opt=
+    local opt=
 
-     if [ "${1:0:1}" == "-" ]; then
-          opt=$1
-          shift 1
-     else
-          opt=""
-     fi
+    if [ "${1:0:1}" == "-" ]; then
+        opt=$1
+        shift 1
+    else
+        opt=""
+    fi
 
-     echo -e $opt "$timestamp|$BASH_LINENO\t$@"
+    echo -e $opt "$timestamp|$BASH_LINENO\t$@"
 
-     return $retval
+    return $retval
 }
 
 usage () {
@@ -44,7 +44,7 @@ _create () {
     echo $1 > VERSION
     git add VERSION
     git commit -m "feature: update version to $version - by robot"
-    git push origin master
+    git push origin main
 
     git tag -a $version -m "bk cmdb $version - by robot"
     git push origin $version
